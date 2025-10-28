@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>World Clock Dashboard</title>
+  <style>
+    body {
+      background-color: #0a0a0a;
+      color: #00FFFF;
+      font-family: 'Consolas', monospace;
+      text-align: center;
+      margin-top: 50px;
+    }
+    h1 {
+      font-size: 50px;
+    }
+    .city {
+      margin: 10px 0;
+      font-size: 30px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌍 World Clock</h1>
+  <div id="clocks"></div>
+
+  <script>
+    const cities = ['newyork', 'paris', 'tokyo', 'sydney', 'mumbai'];
+
+    async function updateClocks() {
+      const container = document.getElementById('clocks');
+      container.innerHTML = '';
+
+      for (const city of cities) {
+        const res = await fetch(`/time/${city}`);
+        const data = await res.json();
+        const div = document.createElement('div');
+        div.classList.add('city');
+        div.textContent = `${city.toUpperCase()}: ${data.time}`;
+        container.appendChild(div);
+      }
+    }
+
+    updateClocks();
+    setInterval(updateClocks, 1000);
+  </script>
+</body>
+</html>
